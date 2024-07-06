@@ -1,11 +1,7 @@
 {
   "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
+  "primitives": "Primitives",
+  "functions": "Functions",
   "contact": {
     "title": "Contact ↗",
     "type": "page",

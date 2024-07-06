@@ -1,0 +1,47 @@
+# guardAsync
+
+`guardAsync<T>(valuePromise: Promise<T?): GuardAsync<T>`
+
+Guards against asynchronous undefined values and provides methods to handle them.
+
+## Overview
+
+The `guardAsync` function creates an instance of `GuardAsync` that wraps a value (`Promise<T>`) and provides methods to safely handle potentially undefined values.
+
+## Parameters
+
+- `value` (`Promise<T>`): The value to be guarded.
+
+## Returns
+
+- `GuardAsync<T>`: An object with methods (`or`, `_throws`) to handle undefined values.
+
+## Example Usage with .or()
+
+```typescript
+import { guardAsync } from "koka-ts";
+
+async function processValue(valuePromise: Promise<string | undefined>) {
+  const guardedValue = guardAsync(valuePromise);
+
+  // Using or method
+  const defaultValue = "Default Value";
+  const finalValue = await guardedValue.or(defaultValue);
+  console.log("Final Value (or):", finalValue);
+}
+```
+
+## Example Usage with .\_throws()
+
+```typescript
+import { guardAsync, tryAsync } from "koka-ts";
+
+async function processValue() {
+  const guardedValue = await tryAsync(guardAsync(valuePromise)._throws());
+  if (guardedValue.isErr()) {
+    console.error(guardedValue.getErr());
+  } else {
+    console.log(guardedValue.unwrap());
+  }
+}
+```

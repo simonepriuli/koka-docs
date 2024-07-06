@@ -1,0 +1,37 @@
+# tryAsync
+
+`tryAsync<T>(fn: Promise<T>): Promise<Result<T, Error>>`
+
+Wraps a promise in a Result object, capturing success or error.
+
+### Overview
+
+The `tryAsync` function is designed to handle asynchronous operations encapsulated within a Promise and return a `Result` object indicating either success or failure.
+
+### Parameters
+
+- `fn` (`Promise<T>`): The promise to wrap.
+
+### Returns
+
+- `Promise<Result<T, Error>>`: A promise that resolves to a `Result` object containing either the value from the resolved promise (`T`) or an `Error` object.
+
+For more details on the Result primitive used in the tryAsync function, refer to the [Result primitive documentation].
+
+### Example Usage
+
+```typescript
+import { tryAsync } from "./utils/asyncUtils";
+
+async function fetchData() {
+  const result = await tryAsync(fetchDataFromServer());
+
+  if (result.isErr()) {
+    // handle error
+    console.error(result.getErr());
+  } else {
+    // Process successful result
+    console.log(result.unwrap());
+  }
+}
+```

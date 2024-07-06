@@ -1,0 +1,65 @@
+# GuardSync
+
+The GuardSync primitive provides a mechanism to encapsulate a value of type T and offers methods to handle scenarios where the value may be undefined. It allows retrieving a default value or throwing an error when the GuardSync value is undefined.
+
+## Usage Consideration
+
+GuardSync is useful in scenarios where synchronous handling of potentially undefined values is required. It ensures predictable behavior when dealing with optional values, providing methods to retrieve a default value or enforce the presence of the guarded value.
+
+## Constructor
+
+### `constructor(value: T | undefined)`
+
+- **Parameters:**
+  - `value`: The value of type T that may be undefined.
+- **Description:**
+  - Initializes an instance of GuardSync`<T>` with the provided value, which may be undefined.
+
+## Methods
+
+### `or(defaultValue: T): T`
+
+- **Parameters:**
+  - `defaultValue`: The value to return if the guarded value is undefined.
+- **Returns:**
+  - `T`: The guarded value if it is defined, or `defaultValue` if it is undefined.
+- **Description:**
+  - Returns the guarded value if it is not undefined. If the guarded value is undefined, returns the provided `defaultValue`.
+
+### `_throws(): T`
+
+- **Throws:**
+  - `Error`: If the guarded value is undefined.
+- **Returns:**
+  - `T`: The guarded value if it is defined.
+- **Description:**
+  - Returns the guarded value if it is not undefined. If the guarded value is undefined, throws an error indicating that the value is undefined.
+
+## Example Usage
+
+```ts
+import { GuardSync } from "koka-ts";
+
+// Example function that retrieves a user's profile synchronously
+function getUserProfile(userId: string): string | undefined {
+  // Simulate fetching user profile data synchronously
+  return userId === "123" ? "User Profile Data" : undefined;
+}
+
+// Usage of the GuardSync<T> primitive
+function displayUserProfile(userId: string) {
+  const userProfile = getUserProfile(userId);
+  const guard = new GuardSync<string>(userProfile);
+
+  try {
+    const profileData = guard._throws();
+    console.log("User Profile:", profileData);
+  } catch (error) {
+    console.error("Error retrieving user profile:", error.message);
+  }
+}
+
+// Call the function
+const userId = "123";
+displayUserProfile(userId);
+```

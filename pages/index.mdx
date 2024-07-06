@@ -1,11 +1,68 @@
-# Introduction
- 
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+# Why Kōka?
 
-## What is Nextra?
+Errors are an inevitable part of software development. Traditional error handling often involves throwing exceptions and catching them, which can lead to convoluted code and hard-to-trace issues.
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+Kōka helps developers manage errors more effectively by providing a robust set of tools and patterns for handling failures in a clean and predictable manner.
 
-## Documentation
+## Errors as value
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+Instead of relying on the traditional try-catch paradigm, Kōka lets you handle errors as if they were regular values, streamlining the error handling process.
+By treating errors as values, your code becomes more declarative. Functions returning [Result](/primitives/result) types make it clear that an operation can fail, which makes the
+potential outcomes of a function explicit and easier to understand.
+
+## Example
+
+The following example showcases the difference between using Kōka and the standard TypeScript pattern for error handling.
+
+### Using Kōka
+
+```ts
+async function getData(): Promise<string> {
+  const res = await tryAsync(fetch("https://api.sampleapis.com/coffee/hot"));
+  if (res.isErr()) {
+    const err = res.getErr();
+    return err.message;
+  }
+  const data = await tryAsync(res.unwrap().json());
+  if (data.isErr()) {
+    const err = data.getErr();
+    return err.message;
+  }
+  return data.unwrap()[0].title;
+}
+```
+
+In this example, Kōka's tryAsync function is used to handle the asynchronous operations. The Result type helps manage potential errors without exceptions.
+isErr() checks for errors, getErr() retrieves error messages, and unwrap() gets the successful result.
+
+### Using standard typescript
+
+```ts
+async function getData(): Promise<string> {
+  try {
+    const res = await fetch("https://api.sampleapis.com/coffee/hot");
+    const data = await res.json();
+    return data[0].title;
+  } catch (err) {
+    return err.message;
+  }
+}
+```
+
+In the standard TypeScript pattern, try-catch blocks are used to handle errors.
+The fetch and json operations are wrapped in a try block, and any errors are caught in the catch block.
+The error message is returned if an error occurs.
+
+### Key benefits:
+
+- **Explicit Error Handling:** Kōka's `Result` type forces explicit handling of potential errors, ensuring all failure paths are considered and managed.
+
+- **Improved Readability:** By using `isErr()`, `getErr()`, and `unwrap()` methods, error handling logic is clear and separate from the main flow of operations, enhancing code readability.
+
+- **Reduced Error Propagation:** Errors are propagated seamlessly through asynchronous operations using Kōka's combinators, reducing the need for nested try-catch blocks and simplifying error propagation.
+
+- **Functional Composition:** Kōka encourages a functional programming style, allowing for easy composition of error-handling logic and promoting modularity and reusability.
+
+- **Type Safety:** TypeScript's type system is leveraged effectively with Kōka, ensuring errors are handled at compile-time, leading to fewer runtime errors and improved code reliability.
+
+Using Kōka provides a structured and explicit approach to error handling in TypeScript, enhancing code reliability, readability, and maintainability. By adopting Kōka, developers can effectively manage errors, ensuring robust application behavior and reducing the likelihood of runtime failures.

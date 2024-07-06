@@ -1,0 +1,43 @@
+# trySync
+
+`trySync<T>(fn: () => T): Result<T, Error>`
+
+Wraps a synchronous function call in a Result object, capturing success or error.
+
+## Overview
+
+The `trySync` function is designed to handle synchronous operations encapsulated within a function and return a `Result` object indicating either success or failure immediately.
+
+## Parameters
+
+- `fn` (`() => T`): The synchronous function to wrap. It does not take any parameters and returns a value of type `T`.
+
+## Returns
+
+- `Result<T, Error>`: A `Result` object containing either the value returned by the function (`T`) or an `Error` object.
+
+For more details on the `Result` primitive used in the `trySync` function, refer to the [Result primitive documentation](/primitives/result).
+
+## Example Usage
+
+```typescript
+import { trySync } from "./utils/syncUtils";
+
+function calculateResult() {
+  // Synchronous computation
+  const result = Math.random() > 0.5 ? "Success" : new Error("Failed");
+  return result;
+}
+
+function processResult() {
+  const result = trySync(() => calculateResult());
+
+  if (result.isErr()) {
+    // handle error
+    console.error(result.getErr());
+  } else {
+    // Process successful result
+    console.log(result.unwrap());
+  }
+}
+```

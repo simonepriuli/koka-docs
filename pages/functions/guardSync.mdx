@@ -1,0 +1,51 @@
+# guardSync
+
+`guardSync<T>(value: T | undefined): Guard<T>`
+
+Guards against undefined values and provides methods to handle them.
+
+## Overview
+
+The `guardSync` function creates an instance of `Guard` that wraps a value (`T | undefined`) and provides methods to safely handle potentially undefined values.
+
+## Parameters
+
+- `value` (`T | undefined`): The value to be guarded.
+
+## Returns
+
+- `Guard<T>`: An object with methods (`or`, `_throws`) to handle undefined values.
+
+## Example Usage with .or()
+
+```typescript
+import { guardSync } from "koka-ts";
+
+function processValue(value: string | undefined) {
+  const guardedValue = guardSync(value);
+
+  // Using or method
+  const defaultValue = "Default Value";
+  const finalValue = guardedValue.or(defaultValue);
+  console.log("Final Value:", finalValue);
+}
+```
+
+## Example Usage with .\_throws()
+
+```typescript
+import { guardSync, trySync } from "koka-ts";
+
+function processValue(value: string | undefined) {
+  const guardedValue = guardSync(value);
+
+  // Using or method
+  const defaultValue = "Default Value";
+  const finalValue = trySync(() => guardedValue._throws());
+  if (finalValue.isOk()) {
+    console.log(finalValue.unwrap());
+  } else {
+    console.log(finalValue.getErr()?.message);
+  }
+}
+```

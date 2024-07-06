@@ -1,0 +1,117 @@
+# The Result primitive
+
+The **Result`<T, E>`** primitive in Kōka provides a structured approach for handling both successful values (T) and error cases (E).
+This documentation outlines the usage and methods available in the Result class to effectively manage outcomes in your applications.
+
+### Usage Consideration
+
+When using the `Result<T, E>` primitive, it's important to note that it is not intended to be used individually. The entire library is built around its usage under the hood, ensuring consistent and predictable error handling across all functions and methods. Therefore, developers should avoid importing and using the `Result` primitive in isolation but instead utilize the library's functions that leverage `Result` internally.
+
+## APIs
+
+The **Result`<T, E>`** primitive provides several methods to handle and manipulate results, making error management explicit and structured. Below are the APIs offered by the **Result`<T, E>`** primitive:
+
+### Constructor
+
+#### `constructor(ok: T | null, err: E | null)`
+
+- **Parameters:**
+  - `ok`: The successful value of type `T`, or `null` if the result is an error.
+  - `err`: The error value of type `E`, or `null` if the result is a success.
+- **Throws:**
+  - `Error`: If both `ok` and `err` are `null`, or if both are not `null`.
+- **Description:**
+  - Initializes a new `Result` instance with either a successful value (`ok`) or an error (`err`).
+
+### Methods
+
+#### `unwrap(): T`
+
+- **Returns:**
+  - `T`: The successful value if the result is a success.
+- **Throws:**
+  - `E`: The error value if the result is an error.
+- **Description:**
+  - Unwraps the result, returning the successful value if present, or throws the stored error.
+
+#### `unwrapOr(defaultValue: T): T`
+
+- **Parameters:**
+  - `defaultValue`: The default value to return if the result is an error.
+- **Returns:**
+  - `T`: The successful value if the result is a success, or `defaultValue` if it is an error.
+- **Description:**
+  - Unwraps the result, returning the successful value if present, or the provided default value if it is an error.
+
+#### `expect(msg: string): T`
+
+- **Parameters:**
+  - `msg`: A custom message to include in the error if the result is an error.
+- **Returns:**
+  - `T`: The successful value if the result is a success.
+- **Throws:**
+  - `Error`: An error with the custom message if the result is an error.
+- **Description:**
+  - Checks if the result is a success. Returns the successful value or throws an error with a custom message.
+
+#### `isOk(): this is Result<T, never>`
+
+- **Returns:**
+  - `boolean`: `true` if the result is a success, `false` otherwise.
+- **Description:**
+  - Checks if the result is a successful value.
+
+#### `isErr(): this is Result<never, E>`
+
+- **Returns:**
+  - `boolean`: `true` if the result is an error, `false` otherwise.
+- **Description:**
+  - Checks if the result is an error.
+
+#### `getErr(): E | null`
+
+- **Returns:**
+  - `E | null`: The error value if present, or `null` if the result is a success.
+- **Description:**
+  - Returns the error value if the result is an error, or `null` if it is a success.
+
+### Example Usage
+
+```ts
+import { Result } from "koka-ts";
+
+// Example function that retrieves user data asynchronously
+async function getUserData(userId: string): Promise<Result<User, Error>> {
+  try {
+    const response = await fetch(`https://api.example.com/users/${userId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user data: ${response.statusText}`);
+    }
+    const userData = await response.json();
+    return new Result(userData, null); // Success case
+  } catch (error) {
+    return new Result(null, error); // Error case
+  }
+}
+
+// Usage of the getUserData function
+async function displayUserData(userId: string) {
+  const result = await getUserData(userId);
+
+  if (result.isOk()) {
+    const userData = result.unwrap();
+    console.log("User data:", userData);
+  } else {
+    console.error("Error fetching user data:", result.getErr()?.message);
+  }
+}
+
+// Call the function
+const userId = "123";
+displayUserData(userId);
+
+```
+
+### Conclusion
+
+The `Result<T, E>` primitive in Kōka offers a structured approach to manage success and error outcomes. By utilizing its methods such as `unwrap()`, `expect()`, and `isOk()`, developers can effectively handle and manipulate results, ensuring clear and predictable error management within their applications.
