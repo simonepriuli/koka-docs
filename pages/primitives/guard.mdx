@@ -1,0 +1,42 @@
+import ApiTitle from "../../components/apititle";
+
+# Guard
+
+The Guard primitive provides a mechanism to encapsulate a value of type T and offers methods to handle scenarios where the value may be undefined. It allows retrieving a default value or throwing an error when the Guard value is undefined.
+
+## APIs
+
+The **`Guard<T>`** primitive provides methods to handle potential undefined values.
+
+> In these APIs' examples we will use the [guardAsync](/functions/guardAsync) utility function that always repond with a Promise of Guard.
+
+---
+
+<ApiTitle main="or(defaultValue: T)" other=": T" />
+Returns the guarded value or the default value if the guarded value is undefined.
+
+**Example**
+
+```ts
+// if couldReturnUndefined() returns undefined we provide a default value.
+const username = await guardAsync(couldReturnUndefined()).or("John Doe");
+```
+
+---
+
+<ApiTitle main="_throws()" other=": T" />
+Returns the guarded value if it is not undefined, otherwise throws an error.
+
+**Example**
+
+```ts
+// wrap the guardAsync that could throw inside a tryAsync and handle the possible error.
+const usernameMaybe = await tryAsync(
+  guardAsync(couldReturnUndefined())._throws()
+);
+if (usernameMaybe.isErr()) {
+  const err = usernameMaybe.getErr();
+  // handle the error
+}
+const username = usernameMaybe.unwrap();
+```

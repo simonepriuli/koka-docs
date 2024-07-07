@@ -1,5 +1,4 @@
 {
     "result": "Result",
-    "guardsync": "GuardSync",
-    "guardasync": "GuardAsync"
+    "guard": "Guard"
 }
