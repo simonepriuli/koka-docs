@@ -1,0 +1,38 @@
+# aggregate
+
+`aggregate<T, E extends Error>(results: Result<T, E>[]): Result<T[], E>`
+
+Combines an array of `Result` objects into a single `Result` object.
+
+### Overview
+
+If all `Result` objects in the array are `Ok`, the function returns a new `Ok` object containing an array of all the unwrapped values.
+If any `Result` object in the array is an `Err`, the function returns the first encountered `Err`.
+
+## Parameters
+
+- `fn(Result<T, E>[])` An array of `Result` objects to be combined.
+
+## Returns
+
+A single `Result` object that is either:
+
+- `Ok` with an array of unwrapped values if all input results are `Ok`.
+- `Err` with the first encountered error if any input result is `Err`
+
+## Example Usage
+
+```typescript
+import { Ok, aggregate } from "koka-ts";
+
+const result1 = new Ok("Tom");
+const result2 = new Ok("Jerry");
+
+const results = aggregate([result1, result2]);
+if (results.isErr()) {
+  console.log(results.getErr());
+} else {
+  const data = results.unwrap();
+  console.log(data); // ['Tom', 'Jerry']
+}
+```

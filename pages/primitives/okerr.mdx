@@ -1,0 +1,31 @@
+# Ok and Err
+
+### Ok
+
+Constructs an Ok variant of Result`<T, E>`
+
+**Example**
+
+```ts
+import { Ok } from "koka-ts";
+
+const myResult = Ok({ myData: "test" });
+
+myResult.isOk(); // true
+myResult.isErr(); // false
+```
+
+### Err
+
+Constructs an Err variant of Result`<T, E>`
+
+**Example**
+
+```ts
+import { Err } from "koka-ts";
+
+const myResult = Err({ myData: "test" });
+
+myResult.isOk(); // false
+myResult.isErr(); // true
+```

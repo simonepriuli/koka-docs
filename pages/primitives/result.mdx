@@ -113,6 +113,19 @@ return user.unwrapUnchecked();
 
 ---
 
+<ApiTitle main="map<U>(callback: (value: T) => U)" other=": Result<U, E>" />
+
+Transforms the value of the result if it is ok, otherwise returns the error.
+
+**Example**
+
+```ts
+const user = await tryAsync(fetch("https://www.some-api.com/api/user"));
+const userName = user.map((u) => u.username); //this is still of type Result<T, E>
+```
+
+---
+
 <ApiTitle main="_expect(msg: string)" other=": T" />
 
 Unwraps the result, returning the value if present, or throws an error with a custom message.
@@ -126,7 +139,6 @@ const user = await tryAsync(fetch("https://www.some-api.com/api/user"));
 // if there is an error, throws.
 return user._expect("Unable to retrieve user data");
 ```
-
 
 ### Conclusion
 

@@ -1,6 +1,7 @@
 {
-    "trySync": "trySync",
-    "tryAsync": "tryAsync",
-    "guardSync": "guardSync",
-    "guardAsync": "guardAsync"
+  "trySync": "trySync",
+  "tryAsync": "tryAsync",
+  "guardSync": "guardSync",
+  "guardAsync": "guardAsync",
+  "aggregate": "aggregate"
 }
