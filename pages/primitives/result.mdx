@@ -15,10 +15,10 @@ The **Result`<T, E>`** primitive provides several methods to handle and manipula
 
 > In these APIs' examples we will use the [tryAsync](/functions/tryAsync) utility function that always repond with a Promise of Result.
 
-<details>
-<summary>
+---
+
 <ApiTitle main="isOk()" other=": this is Result<T, never>" />
-</summary>
+
 Checks if the result is a value.
 
 **Example**
@@ -30,12 +30,10 @@ if (res.isOk()) {
 }
 ```
 
-</details>
+---
 
-<details>
-<summary>
 <ApiTitle main="isErr()" other=": this is Result<never, E>" />
-</summary>
+
 Checks if the result is an error.
 
 **Example**
@@ -47,15 +45,13 @@ if (res.isErr()) {
 }
 ```
 
-</details>
+---
 
-<details>
-<summary>
 <ApiTitle
   main="getErr()"
   other=": this extends Result<never, E> ? E : E | null"
 />
-</summary>
+
 Returns the error if the result is an error.
 
 **Example**
@@ -68,15 +64,10 @@ if (res.isErr()) {
 }
 ```
 
-</details>
+---
 
-<details>
-<summary>
-<ApiTitle
-  main="unwrap()"
-  other=": T"
-/>
-</summary>
+<ApiTitle main="unwrap()" other=": T" />
+
 Unwraps the result, returning the value if present, or throws the error if not.
 
 **Example**
@@ -92,15 +83,10 @@ if (res.isErr()) {
 }
 ```
 
-</details>
+---
 
-<details>
-<summary>
-<ApiTitle
-  main="unwrapOr(defaultValue: T)"
-  other=": T"
-/>
-</summary>
+<ApiTitle main="unwrapOr(defaultValue: T)" other=": T" />
+
 Unwraps the result, returning the value if present, or returns the provided default value.
 
 **Example**
@@ -111,15 +97,10 @@ const user = await tryAsync(fetch("https://www.some-api.com/api/user"));
 return user.unwrapOr("John Doe").name;
 ```
 
-</details>
+---
 
-<details>
-<summary>
-<ApiTitle
-  main="unwrapUnchecked()"
-  other=": T"
-/>
-</summary>
+<ApiTitle main="unwrapUnchecked()" other=": T" />
+
 Unwraps the result, returning the value without checking if an error is present without throwing.
 
 **Example**
@@ -130,15 +111,10 @@ const user = await tryAsync(fetch("https://www.some-api.com/api/user"));
 return user.unwrapUnchecked();
 ```
 
-</details>
+---
 
-<details>
-<summary>
-<ApiTitle
-  main="_expect(msg: string)"
-  other=": T"
-/>
-</summary>
+<ApiTitle main="_expect(msg: string)" other=": T" />
+
 Unwraps the result, returning the value if present, or throws an error with a custom message.
 
 _Some times there is the need to throw, the expect() method allows it._
@@ -151,7 +127,6 @@ const user = await tryAsync(fetch("https://www.some-api.com/api/user"));
 return user._expect("Unable to retrieve user data");
 ```
 
-</details>
 
 ### Conclusion
 
